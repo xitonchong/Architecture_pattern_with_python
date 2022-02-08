@@ -18,3 +18,6 @@ https://github.com/python-leap/code/branches/all
 
 
 
+## mypy configuration file
+Mypy supprots reading configuration settings from a file. by default it uses the file `mypy.ini` with a fallback
+to `.mypy.ini`. in the current dir. 
