@@ -12,9 +12,24 @@ https://github.com/python-leap/code/branches/all
 
 
 ---
+## How to test if a link is up?
+try: 
+    request.get(config.get_api_url)
+except ConnectionError:
+    time.sleep(0.5)
+pytest.fail('API never came up')
+
+
+## postgre
+is a object-relational database 
+
 
 ## pytest 
 - Makefile 
+
+
+## pypi black 
+`black` is able to read project-specific default values for its command line options from a `pyproject.toml` file. 
 
 
 ## Multiple exceptions
