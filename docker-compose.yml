@@ -1,11 +1,12 @@
 version: "3"
-services: 
+services:
+
   app:
     build:
-      context: . 
-      dockerfile: Dockerfile 
+      context: .
+      dockerfile: Dockerfile
     depends_on:
-      - postgres 
+      - postgres
     environment:
       - DB_HOST=postgres
       - DB_PASSWORD=abc123
@@ -13,12 +14,12 @@ services:
       - ./:/code
     ports:
       - "5005:80"
-    
+
 
   postgres:
-    image: postgres:9.6 
-    evironment:
-      - POSTGRES_USER=allocation 
+    image: postgres:9.6
+    environment:
+      - POSTGRES_USER=allocation
       - POSTGRES_PASSWORD=abc123
     ports:
       - "54321:5432"
