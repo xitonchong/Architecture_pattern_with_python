@@ -36,7 +36,7 @@ def add_batch():
 
 
 
-@app.route("/allocate", method=["POST"])
+@app.route("/allocate", methods=["POST"])
 def allocate_endpoint():
     session = get_session() 
     repo = repository.SqlAlchemyRepository(session)
