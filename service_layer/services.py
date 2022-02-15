@@ -1,5 +1,7 @@
 from __future__ import annotations 
 
+from typing import Optional
+from datetime import date 
 from domain import model 
 from domain.model import OrderLine 
 from adapters.repository import AbstractRepository 
@@ -13,8 +15,21 @@ def is_valid_sku(sku, batches):
     return sku in {b.sku for b in batches}
 
 
+def add_bacth(
+    ref: str, sku: str, qty: int, eta: Optional[date],
+    repo: AbstractRepository, session, 
+):
+    repo.add(model.Batch(ref, sku, qty, eta))
+    session.commit() 
+    
 
-def allocate(line: OrderLine, repo: AbstractRepository, session) -> str:
+# we want to pass in only primitive type, and change to domain classes in this functio 
+def allocate(
+    orderid: str, sku: str, qty: int,
+    repo: AbstractRepository, session
+) -> str:
+
+    line = OrderLine(orderid, sku, qty)
     batches = repo.list() 
     if not is_valid_sku(line.sku, batches):
         raise InvalidSku(f"Invalid sku {line.sku}")
