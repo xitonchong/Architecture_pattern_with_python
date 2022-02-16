@@ -10,8 +10,8 @@ services:
     environment:
       - DB_HOST=postgres
       - DB_PASSWORD=abc123
-      - API_HOST=app 
-      - PYTHONONWRITEBYTECODE=1
+      - API_HOST=app
+      - PYTHONDONTWRITEBYTECODE=1
     volumes:
       - ./src:/src
       - ./tests:/tests

@@ -1,5 +1,5 @@
-from domain import model 
-from adapters import repository 
+from allocation.domain import model 
+from allocation.adapters import repository 
 
 # session is marked with pytest.fixture in conftest.py
 def test_repository_can_save_a_batch(session):

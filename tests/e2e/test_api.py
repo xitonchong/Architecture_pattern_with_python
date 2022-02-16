@@ -1,9 +1,8 @@
-import uuid 
-import pytest 
-import requests 
+import uuid
+import pytest
+import requests
 
-
-import config 
+from allocation import config
 
 
 def random_suffix():
@@ -20,6 +19,7 @@ def random_batchref(name=""):
 
 def random_orderid(name=""):
     return f"order-{name}-{random_suffix()}"
+
 
 def post_to_add_batch(ref, sku, qty, eta):
     url = config.get_api_url()
