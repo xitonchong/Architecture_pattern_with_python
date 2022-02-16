@@ -39,7 +39,7 @@ DEFAULT_SESSION_FACTORY = sessionmaker(
     
 
 class SqlAlchemyUnitOfWork(AbstractUnitOfWork):
-    def __init__(self, session_factor=DEFAULT_SESSION_FACTORY):
+    def __init__(self, session_factory=DEFAULT_SESSION_FACTORY):
         self.session_factory = session_factory
 
     def __enter__(self):

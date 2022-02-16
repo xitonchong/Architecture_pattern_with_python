@@ -40,7 +40,3 @@ def allocate_endpoint():
         return {"message": str(e)}, 400
 
     return {"batchref": batchref}, 201
-© 2022 GitHub, Inc.
-Terms
-Privacy
-Security
