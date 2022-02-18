@@ -12,7 +12,7 @@ import abc
 
 
 class AbstractUnitOfWork(abc.ABC):
-    batches: repository.AbstractRepository
+    products: repository.AbstractRepository
 
     def __enter__(self) -> AbstractUnitOfWork:
         return self 
@@ -34,6 +34,7 @@ class AbstractUnitOfWork(abc.ABC):
 DEFAULT_SESSION_FACTORY = sessionmaker(
     bind = create_engine(
         config.get_postgres_uri(),
+        isolation_level="REPEATABLE READ"
     )
 )
     
@@ -44,8 +45,7 @@ class SqlAlchemyUnitOfWork(AbstractUnitOfWork):
 
     def __enter__(self):
         self.session = self.session_factory() # type session 
-        self.batches = repository.SqlAlchemyRepository(self.session) 
-        #only init repo wehn needed, pace in __enter__ method
+        self.products = repository.SqlAlchemyRepository(self.session) 
         return super().__enter__() # essentially calling return self froim abstractunitofwork
 
 
