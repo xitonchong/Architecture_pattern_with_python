@@ -9,6 +9,7 @@ from allocation import config
 from allocation.adapters import repository
 
 import abc 
+from .  import messagebus
 
 
 class AbstractUnitOfWork(abc.ABC):
@@ -20,15 +21,29 @@ class AbstractUnitOfWork(abc.ABC):
     def __exit__(self, *args):
         self.rollback() 
 
-    @abc.abstractmethod 
+
     def commit(self):
-        raise NotImplementedError
+        self._commit()
+        self.publish_events()
+
+
+    def publish_events(self):
+        for product in self.products.seen:
+            while product.events:
+                event = product.events.pop(0)
+                messagebus.handle(event)
+                
 
     @abc.abstractmethod 
     def rollback(self):
         raise NotImplementedError 
 
+    
+    @abc.abstractclassmethod
+    def _commit(self):
+        raise NotImplemented 
 
+    
 
 
 DEFAULT_SESSION_FACTORY = sessionmaker(
@@ -53,7 +68,7 @@ class SqlAlchemyUnitOfWork(AbstractUnitOfWork):
         super().__exit__(*args)
         self.session.close() 
 
-    def commit(self):
+    def _commit(self):
         self.session.commit() # using rollback function from sessionmaker
 
 
