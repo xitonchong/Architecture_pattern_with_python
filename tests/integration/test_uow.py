@@ -116,7 +116,7 @@ def test_concurrent_updates_to_version_are_not_allowed(postgres_session_factory)
         dict(sku=sku),
     )
 
-    assert version == 2 
+    assert version == 2 # product_version is defaulted to 1 at insert batch instead of 0 
     [exception] = exceptions
     assert "could not serialize access due to concurrent update" in str(exception)
 
