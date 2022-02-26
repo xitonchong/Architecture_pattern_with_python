@@ -1,5 +1,5 @@
-from allocation.adapters import repository 
-from allocation.domain import model 
+from allocation.adapters import repository
+from allocation.domain import model
 
 
 def test_get_by_batchref(session):
@@ -12,4 +12,4 @@ def test_get_by_batchref(session):
     repo.add(p1)
     repo.add(p2)
     assert repo.get_by_batchref("b2") == p1
-    assert repo.get_by_batchref("b3") == p2 
+    assert repo.get_by_batchref("b3") == p2

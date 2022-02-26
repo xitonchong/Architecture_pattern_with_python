@@ -1,4 +1,5 @@
 version: "3"
+
 services:
 
   redis_pubsub:
@@ -8,10 +9,11 @@ services:
     image: allocation-image
     depends_on:
       - postgres
+      - redis
     environment:
       - DB_HOST=postgres
       - DB_PASSWORD=abc123
-      - API_HOST=app
+      - REDIS_HOST=redis
       - PYTHONDONTWRITEBYTECODE=1
     volumes:
       - ./src:/src
@@ -20,14 +22,13 @@ services:
       - python
       - /src/allocation/entrypoints/redis_eventconsumer.py
 
-
   api:
     image: allocation-image
     depends_on:
       - redis_pubsub
     environment:
       - DB_HOST=postgres
-      - DB_PASSPORT=abc123
+      - DB_PASSWORD=abc123
       - API_HOST=api
       - REDIS_HOST=redis
       - PYTHONDONTWRITEBYTECODE=1
@@ -45,7 +46,6 @@ services:
     ports:
       - "5005:80"
 
-
   postgres:
     image: postgres:9.6
     environment:
@@ -54,8 +54,8 @@ services:
     ports:
       - "54321:5432"
 
-
   redis:
     image: redis:alpine
     ports:
       - "63791:6379"
+
