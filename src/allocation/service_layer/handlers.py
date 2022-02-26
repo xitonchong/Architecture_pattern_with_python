@@ -21,9 +21,7 @@ def add_batch(
         if product is None:
             product = model.Product(cmd.sku, batches=[])
             uow.products.add(product)
-        product.batches.append(
-            model.Batch(cmd.ref, cmd.sku, cmd.qty, cmd.eta)
-        )
+        product.batches.append(model.Batch(cmd.ref, cmd.sku, cmd.qty, cmd.eta))
         uow.commit()
 
 
@@ -51,6 +49,7 @@ def change_batch_quantity(
         uow.commit()
 
 
+# pylint: disable=unused-argument
 
 
 def send_out_of_stock_notification(
@@ -61,7 +60,6 @@ def send_out_of_stock_notification(
         "stock@made.com",
         f"Out of stock for {event.sku}",
     )
-
 
 
 def publish_allocated_event(

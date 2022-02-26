@@ -1,6 +1,8 @@
-from dataclasses import dataclass
-from typing import Optional 
+# pylint: disable=too-few-public-methods
 from datetime import date
+from typing import Optional
+from dataclasses import dataclass
+
 
 class Command:
     pass
@@ -8,8 +10,8 @@ class Command:
 
 @dataclass
 class Allocate(Command):
-    orderid: str 
-    sku: str 
+    orderid: str
+    sku: str
     qty: int
 
 
@@ -23,6 +25,5 @@ class CreateBatch(Command):
 
 @dataclass
 class ChangeBatchQuantity(Command):
-    ref: str 
+    ref: str
     qty: int
-    

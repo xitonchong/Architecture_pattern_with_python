@@ -1,14 +1,12 @@
-import json 
+import json
 import logging
-from dataclass import asdict
-import redis 
-
+from dataclasses import asdict
+import redis
 
 from allocation import config
 from allocation.domain import events
 
-logger = logger.getLogger(__name__)
-
+logger = logging.getLogger(__name__)
 
 r = redis.Redis(**config.get_redis_host_and_port())
 
