@@ -58,7 +58,6 @@ allocations_view = Table(
 )
 
 
-
 def start_mappers():
     lines_mapper = mapper(model.OrderLine, order_lines)
     batches_mapper = mapper(

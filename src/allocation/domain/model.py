@@ -37,6 +37,7 @@ class Product:
             line = batch.deallocate_one()
             self.events.append(events.Deallocated(line.orderid, line.sku, line.qty))
 
+
 @dataclass(unsafe_hash=True)
 class OrderLine:
     orderid: str
