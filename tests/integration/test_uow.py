@@ -9,8 +9,7 @@ from allocation.domain import model
 from allocation.service_layer import unit_of_work
 from ..random_refs import random_sku, random_batchref, random_orderid
 
-
-@pytest.mark.usefixtures("mappers")
+pytestmark = pytest.mark.usefixtures("mappers")
 
 
 def insert_batch(session, ref, sku, qty, eta, product_version=1):
@@ -87,7 +86,7 @@ def try_to_allocate(orderid, sku, exceptions, session_factory):
             product.allocate(line)
             time.sleep(0.2)
             uow.commit()
-    except Exception as e:
+    except Exception as e:  # pylint: disable=broad-except
         print(traceback.format_exc())
         exceptions.append(e)
 

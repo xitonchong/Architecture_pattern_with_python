@@ -43,7 +43,7 @@ class FakeUnitOfWork(unit_of_work.AbstractUnitOfWork):
 
 class FakeNotifications(notifications.AbstractNotifications):
     def __init__(self):
-        self.sent = defaultdict(list) # type: Dict[str, List[str]]
+        self.sent = defaultdict(list)  # type: Dict[str, List[str]]
 
     def send(self, destination, message):
         self.sent[destination].append(message)
@@ -70,9 +70,8 @@ class TestAddBatch:
         bus.handle(commands.CreateBatch("b1", "GARISH-RUG", 100, None))
         bus.handle(commands.CreateBatch("b2", "GARISH-RUG", 99, None))
         assert "b2" in [
-            b.reference for b in uow.products.get("GARISH-RUG").batches
+            b.reference for b in bus.uow.products.get("GARISH-RUG").batches
         ]
-
 
 
 class TestAllocate:
@@ -83,36 +82,32 @@ class TestAllocate:
         [batch] = bus.uow.products.get("COMPLICATED-LAMP").batches
         assert batch.available_quantity == 90
 
-
     def test_errors_for_invalid_sku(self):
         bus = bootstrap_test_app()
         bus.handle(commands.CreateBatch("b1", "AREALSKU", 100, None))
 
         with pytest.raises(handlers.InvalidSku, match="Invalid sku NONEXISTENTSKU"):
-            messagebus.handle(commands.Allocate("o1", "NONEXISTENTSKU", 10), uow)
-
+            bus.handle(commands.Allocate("o1", "NONEXISTENTSKU", 10))
 
     def test_commits(self):
         bus = bootstrap_test_app()
         bus.handle(commands.CreateBatch("b1", "OMINOUS-MIRROR", 100, None))
         bus.handle(commands.Allocate("o1", "OMINOUS-MIRROR", 10))
-        assert uow.committed
-
+        assert bus.uow.committed
 
     def test_sends_email_on_out_of_stock_error(self):
         fake_notifs = FakeNotifications()
         bus = bootstrap.bootstrap(
             start_orm=False,
             uow=FakeUnitOfWork(),
-            notificaitons=fake_notifs,
-            publish=lambda *args: None
+            notifications=fake_notifs,
+            publish=lambda *args: None,
         )
         bus.handle(commands.CreateBatch("b1", "POPULAR-CURTAINS", 9, None))
         bus.handle(commands.Allocate("o1", "POPULAR-CURTAINS", 10))
         assert fake_notifs.sent["stock@made.com"] == [
             f"Out of stock for POPULAR-CURTAINS",
         ]
-
 
 
 class TestChangeBatchQuantity:
@@ -122,9 +117,8 @@ class TestChangeBatchQuantity:
         [batch] = bus.uow.products.get(sku="ADORABLE-SETTEE").batches
         assert batch.available_quantity == 100
 
-        bus.handle(commands.ChangeBatchQuantity("batch1", 50), uow)
+        bus.handle(commands.ChangeBatchQuantity("batch1", 50))
         assert batch.available_quantity == 50
-
 
     def test_reallocates_if_necessary(self):
         bus = bootstrap_test_app()

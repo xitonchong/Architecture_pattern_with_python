@@ -1,11 +1,10 @@
-import inspect 
-from typing import Callable 
+import inspect
+from typing import Callable
 from allocation.adapters import orm, redis_eventpublisher
 from allocation.adapters.notifications import (
-    AbstractNotifications, 
-    EmailNotifications
+    AbstractNotifications,
+    EmailNotifications,
 )
-
 from allocation.service_layer import handlers, messagebus, unit_of_work
 
 
@@ -32,7 +31,7 @@ def bootstrap(
     }
     injected_command_handlers = {
         command_type: inject_dependencies(handler, dependencies)
-        for comamnd_type, handler in handlers.COMMAND_HANDLERS.items()
+        for command_type, handler in handlers.COMMAND_HANDLERS.items()
     }
 
     return messagebus.MessageBus(
@@ -40,7 +39,6 @@ def bootstrap(
         event_handlers=injected_event_handlers,
         command_handlers=injected_command_handlers,
     )
-
 
 
 def inject_dependencies(handler, dependencies):

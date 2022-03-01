@@ -107,7 +107,6 @@ def remove_allocation_from_read_model(
         uow.commit()
 
 
-
 EVENT_HANDLERS = {
     events.Allocated: [publish_allocated_event, add_allocation_to_read_model],
     events.Deallocated: [remove_allocation_from_read_model, reallocate],
