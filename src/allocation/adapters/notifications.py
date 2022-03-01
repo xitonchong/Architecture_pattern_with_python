@@ -21,7 +21,7 @@ class EmailNotifications(AbstractNotifications):
     def send(self, destination, message):
         msg = f"Subject: allocation service notification\n {message}"
         self.server.sendmail(
-            from_addr="allocation@example.com",
+            from_addr="allocations@example.com",
             to_addrs=[destination],
             msg=msg,
         )
