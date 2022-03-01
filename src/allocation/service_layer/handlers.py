@@ -62,7 +62,7 @@ def change_batch_quantity(
 
 def send_out_of_stock_notification(
     event: events.OutOfStock,
-    notifications: notifications.AbstractNotification,
+    notifications: notifications.AbstractNotifications,
 ):
     notifications.send(
         "stock@made.com",
@@ -115,7 +115,7 @@ EVENT_HANDLERS = {
 }  # type: Dict[Type[events.Event], List[Callable]]
 
 COMMAND_HANDLERS = {
-    commands.Allocate: handlers.allocate,
-    commands.CreateBatch: handlers.add_batch,
-    commands.ChangeBatchQuantity: handlers.change_batch_quantity,
+    commands.Allocate: allocate,
+    commands.CreateBatch: add_batch,
+    commands.ChangeBatchQuantity: change_batch_quantity,
 }  # type: Dict[Type[commands.Command], Callable]

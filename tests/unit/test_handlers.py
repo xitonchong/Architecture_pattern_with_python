@@ -1,6 +1,6 @@
 # pylint: disable=no-self-use
 from __future__ import annotations
-from collectioons import defaultdict
+from collections import defaultdict
 from datetime import date
 from typing import Dict, List
 import pytest
